@@ -13,6 +13,7 @@ export default function WeatherForecastAll({ weather, getIcon }) {
       {
         allForecast.map((fc, i) =>
         (<WeatherForecastOneDay
+          key={i}
           day={getDayName(fc.date)}
           sun={getIcon(i + 1)}
           temp={fc.day.avgtemp_c}
