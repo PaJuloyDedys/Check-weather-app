@@ -63,9 +63,18 @@ export default function App() {
         );
         const data = await response.json();
 
+        if (data.error) {
+          setError(data.error.message); // store error
+          setWeather(null); // clear old weather
+          return;
+        }
+
+        setError(null);
         setWeather(data);
       } catch (err) {
         console.error("Failed to fetch weather:", err);
+        setError("Failed to fetch weather data.");
+        setWeather(null);
       }
     }
 
@@ -117,13 +126,18 @@ export default function App() {
     <div>
       <WeatherInput handleSubmitWeather={handleSubmitWeather} />
       <div className="weather-cont">
-        <WeatherToday
-          temp={weather?.forecast?.forecastday[0]?.day?.avgtemp_c}
-          town={weather?.location?.name}
-          weather={weather?.current?.condition?.text}
-          iconToday={iconToday}
-        />
-        <WeatherForecastAll weather={weather} getIcon={getIcon} />
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        {weather && (
+          <>
+            <WeatherToday
+              temp={weather?.forecast?.forecastday[0]?.day?.avgtemp_c}
+              town={weather?.location?.name}
+              weather={weather?.current?.condition?.text}
+              iconToday={iconToday}
+            />
+            <WeatherForecastAll weather={weather} getIcon={getIcon} />
+          </>
+        )}
       </div>
     </div>
   );
