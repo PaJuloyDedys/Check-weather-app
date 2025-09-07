@@ -35,13 +35,13 @@ export default function App() {
         },
         (err) => {
           setError(err.message);
-          alert(err.message);
+          console.log(err.message);
         },
         { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
       );
     } else {
       setError("Geolocation is not supported by this browser.");
-      alert("Geolocation is not supported by this browser.");
+      console.log("Geolocation is not supported by this browser.");
     }
   }, []);
 
@@ -59,7 +59,7 @@ export default function App() {
         }
 
         const response = await fetch(
-          `https://api.weatherapi.com/v1/forecast.json?key=a14c33ac44904b5292f85116250709&q=${query}&days=5&aqi=no&alerts=no`
+          `https://api.weatherapi.com/v1/forecast.json?key=a14c33ac44904b5292f85116250709&q=${query}&days=7&aqi=no&alerts=no`
         );
         const data = await response.json();
 
@@ -97,12 +97,17 @@ export default function App() {
       weather?.forecast?.forecastday[i]?.day?.condition?.text?.toLowerCase() ||
       "";
 
-    if (condition.includes("sunny")) return "☀️";
-    if (condition.includes("patchy rain") || condition.includes("rain"))
-      return "🌦️";
-    if (condition.includes("moderate rain")) return "🌧️";
-    if (condition.includes("cloud")) return "☁️";
-    return "🌍";
+    if (condition.includes("sunny")) {
+      return "☀️";
+    } else if (condition.includes("moderate rain")) {
+      return "🌧️"
+    } else if (condition.includes("patchy rain") || condition.includes("rain")) {
+      return "🌦️"
+    } else if (condition.includes("cloud")) {
+      return "☁️"
+    } else {
+      return "🌍"
+    }
   }
 
   function handleSubmitWeather(e, cityOrCoords) {
