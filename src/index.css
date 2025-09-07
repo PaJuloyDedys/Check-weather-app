@@ -17,6 +17,17 @@ body {
   /* backdrop-filter: blur(2px); */
 }
 
+html,
+body {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .weather-city {
   margin: 0 auto;
   display: block;
